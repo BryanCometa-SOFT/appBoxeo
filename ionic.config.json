@@ -1,0 +1,7 @@
+{
+  "name": "appboxeo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
