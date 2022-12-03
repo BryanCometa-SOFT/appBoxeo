@@ -64,23 +64,47 @@
       </div>
     </div>
   </div>
-  <div class="mt-4 d-flex justify-content-center">
+  <div class="mt-2 d-flex justify-content-center">
     <img src="assets/icon/imgApp.png" alt="" srcset="" c>
   </div>
+
+  <ion-modal #modal trigger="open-modal" [swipeToClose]="true" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="text-center">
+          <ion-title>💪💪💪 Entrenando 💪💪💪</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="mt-5 text-center">
+        <h1>{{time}}</h1>
+      </ion-content>
+      <ion-toolbar color="">
+        <div class="btnContainer">
+          <ion-button class="" color="light" size="large" (click)="modal.dismiss()">
+            <img src="assets/icon/icons8-stop-sign-48.png" alt="" srcset="">
+          </ion-button>
+          <ion-button class="" color="light" size="large">
+            <img src="assets/icon/icons8-play-48.png" alt="" srcset="">
+          </ion-button>
+        </div>
+      </ion-toolbar>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar color="">
     <div class="btnContainer">
-      <ion-button class="btn1" color="light" size="large" (click)="resetTimes()">
+      <ion-button class="" color="light" size="large" (click)="resetTimes()">
         <img src="assets/icon/icons8-trash-48.png" alt="" srcset="">
       </ion-button>
-      <ion-button class="btn2" color="light" size="large">
-        <img src="assets/icon/icons8-stop-sign-48.png" alt="" srcset="">
-      </ion-button>
-      <ion-button class="btn3" color="light" size="large">
+      <ion-button class="" color="light" size="large" id="open-modal" expand="block" (click)="openModal()">
         <img src="assets/icon/icons8-play-48.png" alt="" srcset="">
       </ion-button>
     </div>
   </ion-toolbar>
 </ion-footer>
+
+
+
+
