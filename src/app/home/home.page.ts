@@ -13,7 +13,8 @@ export class HomePage {
   rounds : number = 0;
   breakTime: string = "00:00";
   timeRound: string = "00:00";
-  time: string = "";
+  time: number = 0;
+  isContinueTime: boolean = false;
 
   breakTimeData: any = {
     minutes: 0,
@@ -33,6 +34,9 @@ export class HomePage {
     this.presentingElement = document.querySelector('.ion-page');
   }
 
+  /**
+   * @descripcion comprueba si el usuario quiere cancelar el entrenamiento
+   */
   canDismiss = async () => {
     const actionSheet = await this.actionSheetCtrl.create({
       header: '¿¿ Estás seguro de que quiere rendirse tan rápido ?? 💪💪💪 Vamos continuemos entrenando 💪💪💪',
@@ -53,12 +57,29 @@ export class HomePage {
     return role === 'confirm';
   };
 
+  /**
+   * @descripcion abre la ventana modal para iniciar el contador de round
+   */
   openModal(){
     const element = document.getElementById("open-modal");
     element?.click();
+    this.runTime();
   }
 
+  /**
+   * @descripcion ejecuta el contador con el tiempo en cuenta regresiva
+   */
+  runTime(){
+    this.time = this.roundTimeData.seconds + (this.roundTimeData.minutes*60);
+    setInterval(() => {
+      console.log(this.time );
+      this.time = this.time - 1;
+    }, 1000);
+  }
 
+  /**
+   * @descripcion calcula el tiempo total de por número de round, descanso y tiempo de round
+   */
   calcTotalTime(){
     if(this.rounds > 0){
       let totalMinutes = 0;
@@ -79,6 +100,9 @@ export class HomePage {
     }
   }
 
+  /**
+   * @descripcion asigna los valores de tiempo los atributos de descanso
+   */
   nextBreakTime(){
     const nextData = this.nextTime(this.breakTimeData.seconds,this.breakTimeData.minutes);
     this.breakTimeData.seconds = nextData?.seconds;
@@ -87,6 +111,9 @@ export class HomePage {
     this.calcTotalTime();
   }
 
+   /**
+   * @descripcion asigna los valores de tiempo los atributos de descanso
+   */
   backBreakTime(){
     const backData = this.backTime(this.breakTimeData.seconds,this.breakTimeData.minutes);
     this.breakTimeData.seconds = backData?.seconds;
@@ -95,6 +122,9 @@ export class HomePage {
     this.calcTotalTime();
   }
 
+   /**
+   * @descripcion asigna los valores de tiempo los atributos de round
+   */
   nextRoundTime(){
     const nextData = this.nextTime(this.roundTimeData.seconds,this.roundTimeData.minutes)
     this.roundTimeData.seconds = nextData.seconds;
@@ -103,6 +133,9 @@ export class HomePage {
     this.calcTotalTime();
   }
 
+  /**
+   * @descripcion asigna los valores de tiempo los atributos de round
+   */
   backRoundTime(){
     const backData = this.backTime(this.roundTimeData.seconds,this.roundTimeData.minutes);
     this.roundTimeData.seconds = backData?.seconds;
@@ -168,17 +201,26 @@ export class HomePage {
     }
   }
 
+  /**
+   * @descripcion desminuye el número de rondas en 1
+   */
   backRound(){
     if(this.rounds <= 0){ return; }
     this.rounds --;
     this.calcTotalTime();
   }
 
+   /**
+   * @descripcion aumenta el número de rondas en 1
+   */
   nextRound(){
     this.rounds ++;
     this.calcTotalTime();
   }
 
+  /**
+   * @descripcion Restablece a 0 todos los tiempos guardados
+   */
   resetTimes(){
     this.totalTime = "0";
     this.rounds = 0;
