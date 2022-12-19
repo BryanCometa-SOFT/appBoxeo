@@ -12,7 +12,6 @@
 <ion-content [fullscreen]="true">
   <div id="container">
     <div class="styleList d-flex justify-content-between ">
-
       <img src="assets/icon/icons8-boxing-70.png">
 
       <div class="d-flex flex-column align-items-center">
@@ -50,7 +49,7 @@
       <img src="assets/icon/icons8-time-64.png" alt="" srcset="">
 
       <div class="d-flex flex-column align-items-center">
-        <h3>{{ rounds }}</h3>
+        <h3 class="text-xl">{{ rounds }}</h3>
         <p>Número de rondas</p>
       </div>
 
@@ -65,8 +64,9 @@
     </div>
   </div>
   <div class="mt-2 d-flex justify-content-center">
-    <img src="assets/icon/imgApp.png" alt="" srcset="" c>
+    <img src="assets/icon/imgApp.png" alt="" srcset="" >
   </div>
+  <button style="visibility:hidden;" id="open-modal"></button>
 
   <ion-modal #modal trigger="open-modal" [swipeToClose]="true" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
     <ng-template>
@@ -76,7 +76,12 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="mt-5 text-center">
-        <h1>{{time}}</h1>
+        <div class="d-flex flex-column align-items-center">
+          <h2>Entrenamiento en curso</h2>
+          <h3 class="text-timer">{{ time }}</h3>
+          <img src="assets/icon/VVTD.gif" alt="" srcset="" >
+          <h3>Ronda 1 de {{ rounds }} </h3>
+        </div>
       </ion-content>
       <ion-toolbar color="">
         <div class="btnContainer">
@@ -98,10 +103,10 @@
 <ion-footer>
   <ion-toolbar color="">
     <div class="btnContainer">
-      <ion-button class="" color="light" size="large" (click)="resetTimes()">
+      <ion-button class="" color="light" size="large" (click)="deleteTime()">
         <img src="assets/icon/icons8-trash-48.png" alt="" srcset="">
       </ion-button>
-      <ion-button class="" color="light" size="large" id="open-modal" expand="block" (click)="openModal()">
+      <ion-button class="" color="light" size="large" (click)="openModal()">
         <img src="assets/icon/icons8-play-48.png" alt="" srcset="">
       </ion-button>
     </div>

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { ActionSheetController } from '@ionic/angular';
 
+import { AlertController } from '@ionic/angular';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -28,7 +30,7 @@ export class HomePage {
 
   presentingElement: any = undefined;
 
-  constructor(private actionSheetCtrl: ActionSheetController) {}
+  constructor(private actionSheetCtrl: ActionSheetController,private alertController: AlertController) {}
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
@@ -57,23 +59,65 @@ export class HomePage {
     return role === 'confirm';
   };
 
+    /**
+   * @descripcion Lanza alerta para validar si el usuario realmente quiere eliminar los tiempos
+   */
+    deleteTime = async () => {
+      const actionSheet = await this.actionSheetCtrl.create({
+        header: '¿Estás seguro de eliminar el Tiempo de ronda, Tiempo de descanso y Número de rondas?',
+        buttons: [
+          {
+            text: 'Sí',
+            role: 'confirm',
+          },
+          {
+            text: 'No',
+            role: 'cancel',
+          },
+        ],
+      });
+
+      actionSheet.present();
+      const { role } = await actionSheet.onWillDismiss();
+      if(role === 'confirm'){
+        this.resetTimes();
+      }
+    };
+
   /**
    * @descripcion abre la ventana modal para iniciar el contador de round
    */
-  openModal(){
-    const element = document.getElementById("open-modal");
-    element?.click();
-    this.runTime();
+  async openModal(){
+    if(this.rounds > 0 &&
+      (this.roundTimeData.minutes + this.roundTimeData.seconds) > 0 &&
+      (this.breakTimeData.minutes + this.breakTimeData.seconds) > 0 ){
+
+        console.log("hola mundo")
+
+
+        const element = document.getElementById("open-modal");
+        element?.click();
+        this.runTime();
+    }else{
+      console.log("hola mundo2")
+      const alert = await this.alertController.create({
+        header: 'Advertencia',
+        message: 'Para iniciar el entrenamiento necesita (Tiempo de ronda, Tiempo de descanso y Número de rondas).',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
   }
 
   /**
    * @descripcion ejecuta el contador con el tiempo en cuenta regresiva
    */
   runTime(){
-    this.time = this.roundTimeData.seconds + (this.roundTimeData.minutes*60);
+    let timeFinal = this.roundTimeData.seconds + (this.roundTimeData.minutes*60);
     setInterval(() => {
-      console.log(this.time );
-      this.time = this.time - 1;
+      timeFinal = timeFinal - 1;
+        this.time = timeFinal;
+        console.log(timeFinal );
     }, 1000);
   }
 
