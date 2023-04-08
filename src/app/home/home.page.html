@@ -1,25 +1,21 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tiempo total
-    </ion-title>
-    <ion-title slot="end">
-      {{totalTime}}
-    </ion-title>
+    <ion-title> Tiempo total </ion-title>
+    <ion-title slot="end"> {{totalTime}} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <div class="styleList d-flex justify-content-between ">
-      <img src="assets/icon/icons8-boxing-70.png">
+    <div class="styleList d-flex justify-content-between">
+      <img src="assets/icon/icons8-boxing-70.png" />
 
       <div class="d-flex flex-column align-items-center">
         <h3>{{timeRound}}</h3>
         <p>Tiempo ronda</p>
       </div>
 
-      <div class="d-flex justify-content-around ">
+      <div class="d-flex justify-content-around">
         <ion-button color="light" class="mr-3" (click)="nextRoundTime()">
           <h4>+</h4>
         </ion-button>
@@ -29,15 +25,15 @@
       </div>
     </div>
     <div class="styleList d-flex justify-content-between">
-      <img src="assets/icon/icons8-deadline-64.png" >
+      <img src="assets/icon/icons8-deadline-64.png" />
 
       <div class="d-flex flex-column align-items-center">
         <h3>{{ breakTime }}</h3>
         <p>Tiempo descanso</p>
       </div>
 
-      <div class="d-flex justify-content-around  ">
-        <ion-button color="light" class="mr-3" (click)="nextBreakTime()" >
+      <div class="d-flex justify-content-around">
+        <ion-button color="light" class="mr-3" (click)="nextBreakTime()">
           <h4>+</h4>
         </ion-button>
         <ion-button color="light" (click)="backBreakTime()">
@@ -46,7 +42,7 @@
       </div>
     </div>
     <div class="styleList d-flex justify-content-between">
-      <img src="assets/icon/icons8-time-64.png" alt="" srcset="">
+      <img src="assets/icon/icons8-time-64.png" alt="" srcset="" />
 
       <div class="d-flex flex-column align-items-center">
         <h3 class="text-xl">{{ rounds }}</h3>
@@ -54,21 +50,27 @@
       </div>
 
       <div class="d-flex justify-content-around">
-        <ion-button color="light" class="mr-3" (click)="nextRound()" >
+        <ion-button color="light" class="mr-3" (click)="nextRound()">
           <h4>+</h4>
         </ion-button>
-        <ion-button color="light" (click)="backRound()" >
+        <ion-button color="light" (click)="backRound()">
           <h4>-</h4>
         </ion-button>
       </div>
     </div>
   </div>
   <div class="mt-2 d-flex justify-content-center">
-    <img src="assets/icon/imgApp.png" alt="" srcset="" >
+    <img src="assets/icon/imgApp.png" alt="" srcset="" />
   </div>
-  <button style="visibility:hidden;" id="open-modal"></button>
+  <button style="visibility: hidden" id="open-modal"></button>
 
-  <ion-modal #modal trigger="open-modal" [swipeToClose]="true" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+  <ion-modal
+    #modal
+    trigger="open-modal"
+    [swipeToClose]="true"
+    [canDismiss]="canDismiss"
+    [presentingElement]="presentingElement"
+  >
     <ng-template>
       <ion-header>
         <ion-toolbar class="text-center">
@@ -77,22 +79,40 @@
       </ion-header>
       <ion-content class="mt-5 text-center">
         <div class="d-flex flex-column align-items-center">
-          <h2>Entrenamiento en curso</h2>
+          <h2>{{textTrainingCurrent}}</h2>
           <h3 class="text-timer">{{ time }}</h3>
-          <img src="assets/icon/VVTD.gif" alt="" srcset="" >
-          <h3>Ronda 1 de {{ rounds }} </h3>
+
+          <img *ngIf="isBreak === true" src="assets/icon/VVTD.gif" alt="" srcset="" />
+          <img *ngIf="isBreak === false" src="assets/icon/homero.gif" alt="" srcset="" />
+          <img *ngIf="isBreak === null" src="assets/icon/homero.gif" alt="" srcset="" />
+          <h3>Ronda {{roundCurrent}} de {{ rounds }}</h3>
         </div>
       </ion-content>
       <ion-toolbar color="">
         <div class="btnContainer">
-          <ion-button class="" color="light" size="large" (click)="modal.dismiss()">
-            <img src="assets/icon/icons8-stop-48.png" alt="" srcset="">
+          <ion-button
+            class=""
+            color="light"
+            size="large"
+            (click)="modal.dismiss()"
+          >
+            <img src="assets/icon/icons8-stop-48.png" alt="" srcset="" />
           </ion-button>
-          <ion-button class="" color="light" size="large" *ngIf="isContinueTime">
-            <img src="assets/icon/icons8-play-48.png" alt="" srcset="">
+          <ion-button
+            class=""
+            color="light"
+            size="large"
+            *ngIf="isContinueTime"
+          >
+            <img src="assets/icon/icons8-play-48.png" alt="" srcset="" />
           </ion-button>
-          <ion-button class="" color="light" size="large" *ngIf="!isContinueTime" >
-            <img src="assets/icon/icons8-stop-sign-48.png" alt="" srcset="">
+          <ion-button
+            class=""
+            color="light"
+            size="large"
+            *ngIf="!isContinueTime"
+          >
+            <img src="assets/icon/icons8-stop-sign-48.png" alt="" srcset="" />
           </ion-button>
         </div>
       </ion-toolbar>
@@ -104,15 +124,11 @@
   <ion-toolbar color="">
     <div class="btnContainer">
       <ion-button class="" color="light" size="large" (click)="deleteTime()">
-        <img src="assets/icon/icons8-trash-48.png" alt="" srcset="">
+        <img src="assets/icon/icons8-trash-48.png" alt="" srcset="" />
       </ion-button>
       <ion-button class="" color="light" size="large" (click)="openModal()">
-        <img src="assets/icon/icons8-play-48.png" alt="" srcset="">
+        <img src="assets/icon/icons8-play-48.png" alt="" srcset="" />
       </ion-button>
     </div>
   </ion-toolbar>
 </ion-footer>
-
-
-
-
