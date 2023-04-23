@@ -74,22 +74,64 @@
     <ng-template>
       <ion-header>
         <ion-toolbar class="text-center">
-          <ion-title>💪💪💪 Entrenando 💪💪💪</ion-title>
+          <ion-title *ngIf="isBreak !== null"
+            >💪💪💪 Entrenando 💪💪💪</ion-title
+          >
+          <ion-title *ngIf="isBreak === null"
+            >🙌🎀🎊 Felicidades 🙌🎀🎊</ion-title
+          >
         </ion-toolbar>
       </ion-header>
       <ion-content class="mt-5 text-center">
-        <div class="d-flex flex-column align-items-center">
-          <h2>{{textTrainingCurrent}}</h2>
-          <h3 class="text-timer">{{ time }}</h3>
+        <div
+          class="d-flex flex-column justify-content-center"
+          style="height: 85vh"
+        >
+          <h2 class="mb-5">{{textTrainingCurrent}}</h2>
+          <h3 class="text-timer" *ngIf="isBreak !== null">{{ time }}</h3>
 
-          <img *ngIf="isBreak === true" src="assets/icon/VVTD.gif" alt="" srcset="" />
-          <img *ngIf="isBreak === false" src="assets/icon/homero.gif" alt="" srcset="" />
-          <img *ngIf="isBreak === null" src="assets/icon/homero.gif" alt="" srcset="" />
-          <h3>Ronda {{roundCurrent}} de {{ rounds }}</h3>
+          <img
+            *ngIf="isBreak === false "
+            src="assets/icon/VVTD.gif"
+            alt=""
+            srcset=""
+          />
+          <img
+            *ngIf="isBreak === true"
+            src="assets/icon/homero.gif"
+            alt=""
+            srcset=""
+          />
+          <img
+            *ngIf="isBreak === null"
+            src="assets/icon/felicidades.gif"
+            alt=""
+            srcset=""
+          />
+          <h3 *ngIf="isBreak !== null">
+            Ronda {{roundCurrent}} de {{ rounds }}
+          </h3>
+
+          <div class="mt-5 d-flex justify-content-center">
+            <ion-button
+              *ngIf="isBreak === null"
+              class=""
+              color="#0C0C0C"
+              size="large"
+              (click)="modal.dismiss()"
+            >
+              <img
+                src="assets/icon/restablecer.png"
+                style="width: 40px;"
+                alt=""
+                srcset=""
+              /> </ion-button
+            ><!--  -->
+          </div>
         </div>
       </ion-content>
       <ion-toolbar color="">
-        <div class="btnContainer">
+        <div class="btnContainer" *ngIf="isBreak !== null">
           <ion-button
             class=""
             color="light"

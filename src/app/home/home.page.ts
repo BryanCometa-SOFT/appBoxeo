@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 
 import { AlertController } from '@ionic/angular';
+import { setTimeout } from 'timers';
+import { Platform } from '@ionic/angular';
 
 interface MyThis {
   time: number;
@@ -25,7 +27,7 @@ export class HomePage {
   isBreak: Boolean | any = false;
 
   //Texto del estado del entrenamiento
-  textTrainingCurrent :String = "Entrenamiento en curso 💪💪💪"
+  textTrainingCurrent: String = 'Entrenamiento en curso 💪💪💪';
 
   totalTime: string = '0';
 
@@ -50,7 +52,8 @@ export class HomePage {
 
   constructor(
     private actionSheetCtrl: ActionSheetController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private platform: Platform
   ) {}
 
   ngOnInit() {
@@ -69,7 +72,15 @@ export class HomePage {
 
         if (segundosRestantes < 0) {
           clearInterval(intervalo);
+
+          //Ejecuta sonido de round
+          const audio = new Audio();
+          audio.src = 'assets/sounds/campana-de-box.mp3';
+          audio.load();
+          audio.play();
+
           console.log(`¡Tiempo completado de ${texto}`);
+
           resolve();
         } else {
           this.time = segundosRestantes;
@@ -108,17 +119,25 @@ export class HomePage {
       if (!this.isBreak) {
         //Lleva el contador del round actual o descanso
         this.roundCurrent += 1;
-        this.textTrainingCurrent = "Entrenamiento en curso 💪💪💪";
+        this.textTrainingCurrent = 'Entrenamiento en curso 💪💪💪';
         await this.trainingTimer(timePerRound, 'round');
       } else {
-        this.textTrainingCurrent = "Ha descansar 👏👏👏";
+        this.textTrainingCurrent = 'Ha descansar 👏👏👏';
         await this.trainingTimer(timePerBreak, 'descanso');
       }
       //Habilita o desabilita el time de descanso o round
       this.isBreak = !this.isBreak;
     }
     this.isBreak = null;
-    this.textTrainingCurrent = "Entrenamiento terminado con éxito 🎊🙌🎊";
+    this.textTrainingCurrent = 'Entrenamiento terminado con éxito 🎊🙌🎊';
+
+    //Ejecuta sonido de aplausos
+    const audio = new Audio();
+    audio.src = 'assets/sounds/aplausos.mp3';
+    audio.load();
+    audio.play();
+
+    this.resetTimes();
   }
 
   /**
@@ -364,6 +383,9 @@ export class HomePage {
     this.breakTime = '00:00';
     this.timeRound = '00:00';
 
+    //Lleva el contador del round actual
+    this.roundCurrent = 0;
+
     this.breakTimeData = {
       minutes: 0,
       seconds: 0,
@@ -374,4 +396,9 @@ export class HomePage {
       seconds: 0,
     };
   }
+
+  /**
+   * @descripcion Sonido de ejecutar boxeo
+   */
+  playSound() {}
 }
